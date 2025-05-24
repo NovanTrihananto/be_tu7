@@ -1,9 +1,9 @@
-import User from "../models/Usermodel.js";
+import Note from "../models/Usermodel.js"; // Tetap pakai nama file Usermodel.js
 
 // GET
-async function getUsers(req, res) {
+async function getNote(req, res) {
   try {
-    const response = await User.findAll();
+    const response = await Note.findAll();
     res.status(200).json(response);
   } catch (error) {
     console.log(error.message);
@@ -11,42 +11,38 @@ async function getUsers(req, res) {
 }
 
 // CREATE
-async function createUser(req, res) {
+async function createNote(req, res) {
   try {
     const inputResult = req.body;
-    await User.create(inputResult);
-    res.status(201).json({ msg: "User Created" });
+    await Note.create(inputResult);
+    res.status(201).json({ msg: "Note Created" });
   } catch (error) {
     console.log(error.message);
   }
 }
 
-export { getUsers, createUser };
+export { getNote, createNote };
 
-export const updateUser = async(req, res)=> {
+export const updateNote = async (req, res) => {
   try {
-    const inputUser = req.body;
+    const inputNote = req.body;
 
-    await User.update(inputUser, {
-      where : { 
-        id: req.params.id }
+    await Note.update(inputNote, {
+      where: { id: req.params.id },
     });
-    res.status(200).json({ msg: "User Updated" });
-
-} catch (error) {
-  console.log(error.message);
-}
-}
-
-export const deleteUser = async (req,res)=>{
-  try {
-    await User.destroy({
-      where:{
-        id : req.params.id
-      }
-    });
-    res.status(204).json({msg:"user berhasil dihapus"});
-  } catch (error){
+    res.status(200).json({ msg: "Note Updated" });
+  } catch (error) {
     console.log(error.message);
   }
-}
+};
+
+export const deleteNote = async (req, res) => {
+  try {
+    await Note.destroy({
+      where: { id: req.params.id },
+    });
+    res.status(204).json({ msg: "Note deleted successfully" });
+  } catch (error) {
+    console.log(error.message);
+  }
+};

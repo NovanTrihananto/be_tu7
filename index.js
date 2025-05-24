@@ -1,29 +1,21 @@
 import express from "express";
 import cors from "cors";
-import UserRoute from "./routes/Userroute.js";
-import db from "./databases/Databases.js";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import Loginroute from "./routes/Loginroute.js";
+import Userroute from "./routes/Userroute.js";
+
 
 const app = express();
+app.set("view engine", "ejs");
 
-app.use(cors());
+dotenv.config();
+
+app.use(cookieParser());
+app.use(cors({ credentials:true, origin: 'http://localhost:3000' }));
 app.use(express.json());
-app.use(UserRoute);
+app.get("/", (req, res) => res.render("index"));
+app.use(Loginroute); // <- ini penting
+app.use(Userroute);  // <- pastikan huruf kecil sesuai import
 
-// Cek koneksi database saat server start
-async function startServer() {
-    try {
-        await db.authenticate();
-        console.log("✅ Database connected");
-
-        // Sync database (pilih opsi sesuai kebutuhan)
-        await db.sync({ alter: true }); // Bisa diganti force: true untuk dev
-
-        const PORT = process.env.PORT || 5000;
-        app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
-    } catch (error) {
-        console.error("❌ Database connection failed:", error.message);
-        console.error(error.stack); // Untuk debugging lebih detail
-    }
-}
-
-startServer();
+app.listen(5000, () => console.log("Server connected"));
