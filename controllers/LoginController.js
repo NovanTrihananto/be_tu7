@@ -112,7 +112,7 @@ async function loginHandler(req, res) {
         res.cookie("refreshToken", refreshToken, {
           httpOnly: false,
           sameSite: "none",
-          secure: true, //ini nanti ganti kalo kegcp
+          secure: false, //ini nanti ganti kalo kegcp
           maxAge: 24 * 60 * 60 * 1000
         });
 
