@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(cors({
   credentials: true,
-  origin: 'https://be202-tu7-700231807331.us-central1.run.app'  // ganti ini dengan domain frontend kamu
+  origin: true  // ganti ini dengan domain frontend kamu
 }));
 app.use(express.json());
 
