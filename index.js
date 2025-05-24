@@ -5,17 +5,26 @@ import dotenv from "dotenv";
 import Loginroute from "./routes/Loginroute.js";
 import Userroute from "./routes/Userroute.js";
 
+dotenv.config();
 
 const app = express();
 app.set("view engine", "ejs");
 
-dotenv.config();
-
+// Middleware
 app.use(cookieParser());
-app.use(cors({ credentials:true, origin: 'http://localhost:3000' }));
+app.use(cors({
+  credentials: true,
+  origin: 'https://be202-tu7-700231807331.us-central1.run.app'  // ganti ini dengan domain frontend kamu
+}));
 app.use(express.json());
-app.get("/", (req, res) => res.render("index"));
-app.use(Loginroute); // <- ini penting
-app.use(Userroute);  // <- pastikan huruf kecil sesuai import
 
-app.listen(5000, () => console.log("Server connected"));
+// Routes
+app.get("/", (req, res) => res.render("index"));
+app.use(Loginroute);
+app.use(Userroute);
+
+// Listening
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
